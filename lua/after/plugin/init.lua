@@ -1,0 +1,7 @@
+require("after.plugin.treesitter")
+require("after.plugin.telescope")
+require("after.plugin.harpoon")
+require("after.plugin.undotree")
+require("after.plugin.fugitive")
+require("after.plugin.lsp")
+require("after.plugin.lualine")

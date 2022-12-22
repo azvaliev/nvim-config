@@ -1,2 +1,2 @@
 require("master")
-require("after")
+require("after.plugin")

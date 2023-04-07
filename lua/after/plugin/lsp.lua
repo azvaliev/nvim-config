@@ -38,6 +38,10 @@ lsp.on_attach(function(client, bufnr)
     return
   end
 
+  if client.name == "gopls" then
+    vim.keymap.set('n', '<leader>fa', ':w<CR>:!go fmt %<CR>', {silent = true})
+  end
+
   if client.name == "tsserver" then
     vim.keymap.set('n', '<leader>rf', ':TypescriptRenameFile<CR>')
   end

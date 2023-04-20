@@ -1,7 +1,7 @@
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all"
   ensure_installed = {
-	  "astro", "css", "scss", "dockerfile", "go", "gomod", "graphql", "help",
+	  "astro", "css", "scss", "dockerfile", "go", "gomod", "graphql",
 	  "javascript", "jsdoc", "json", "prisma", "typescript", "c", "lua", "rust" 
   },
 

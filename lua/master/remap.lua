@@ -1,4 +1,4 @@
-vim.g.mapleader = "\\"
+vim.g.mapleader = " "
 -- <leader>pv to go to file system
 vim.keymap.set("n", "<leader>pv", vim.cmd.Explore)
 

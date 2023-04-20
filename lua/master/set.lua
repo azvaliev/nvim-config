@@ -16,6 +16,7 @@ vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = false
 
 -- vim.opt.autochdir = true
+vim.opt.cursorline = true
 
 vim.opt.hlsearch = false
 vim.opt.incsearch = true

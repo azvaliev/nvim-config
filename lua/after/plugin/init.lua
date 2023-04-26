@@ -89,7 +89,7 @@ vim.keymap.set("n", "<leader>tt", vim.cmd.TroubleToggle)
 ----------------
 
 vim.g.copilot_no_tab_map = true;
-vim.keymap.set({ "n", "i" }, "<C-j>", 'copilot#Accept("<CR>")', { expr = true, silent = true });
+vim.keymap.set({ "n", "i" }, "<C-j>", 'copilot#Accept("<CR>")', { expr = true, silent = true, replace_keycodes = false });
 
 ---------------
 -- Conquer of Completion

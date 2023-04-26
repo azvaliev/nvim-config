@@ -70,13 +70,6 @@ vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 ----------------
 
 vim.g.netrw_list_hide = "(^|\\s\\s)\zs.\\S+";
-
-----------------
--- LSP
-----------------
-
-require("after.plugin.lsp")
-
 ----------------
 -- Lualine
 ----------------
@@ -98,3 +91,8 @@ vim.keymap.set("n", "<leader>tt", vim.cmd.TroubleToggle)
 vim.g.copilot_no_tab_map = true;
 vim.keymap.set({ "n", "i" }, "<C-j>", 'copilot#Accept("<CR>")', { expr = true, silent = true });
 
+---------------
+-- Conquer of Completion
+---------------
+
+vim.cmd('source ~/.config/nvim/lua/after/plugin/coc.vim')

@@ -28,30 +28,12 @@ return require('packer').startup(function(use)
 
   use('tpope/vim-fugitive')
 
-  use {
-    'VonHeikemen/lsp-zero.nvim',
-    requires = {
-      -- LSP Support
-      {'neovim/nvim-lspconfig'},
-      {'williamboman/mason.nvim'},
-      {'williamboman/mason-lspconfig.nvim'},
-
-      -- TypeScript
-      {'jose-elias-alvarez/typescript.nvim'},
-
-      -- Autocompletion
-      {'hrsh7th/nvim-cmp'},
-      {'hrsh7th/cmp-buffer'},
-      {'hrsh7th/cmp-path'},
-      {'saadparwaiz1/cmp_luasnip'},
-      {'hrsh7th/cmp-nvim-lsp'},
-      {'hrsh7th/cmp-nvim-lua'},
-
-      -- Snippets
-      {'L3MON4D3/LuaSnip'},
-      {'rafamadriz/friendly-snippets'},
-    }
+  use{
+    'neoclide/coc.nvim',
+    branch = 'release',
   }
+
+  use('prisma/vim-prisma')
 
   use ({
     'lewis6991/gitsigns.nvim',
@@ -69,7 +51,6 @@ return require('packer').startup(function(use)
 
   use {
     'windwp/nvim-autopairs',
-    after = 'nvim-cmp',
     config = function() require('nvim-autopairs').setup {} end
   }
 
@@ -100,4 +81,11 @@ return require('packer').startup(function(use)
   })
 
   use('github/copilot.vim')
+
+  use{
+    'dmmulroy/tsc.nvim',
+    config = function()
+      require('tsc').setup()
+    end
+  }
 end)

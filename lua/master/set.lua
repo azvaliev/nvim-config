@@ -15,8 +15,18 @@ vim.opt.backup = false
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = false
 
+-- No error bells
+vim.opt.errorbells = false
+vim.opt.visualbell = false
+
 -- vim.opt.autochdir = true
 vim.opt.cursorline = true
+
+-- Don't redraw while executing macros (good performance config)
+vim.opt.lazyredraw = true
+
+-- How many tenths of a second to blink when matching brackets
+vim.opt.mat = 2
 
 vim.opt.hlsearch = false
 vim.opt.incsearch = true

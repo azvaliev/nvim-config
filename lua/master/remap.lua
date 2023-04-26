@@ -17,3 +17,26 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- greatest remap ever
 vim.keymap.set("x", "<leader>p", "\"_dP")
+
+-- U to redo
+vim.keymap.set("n", "U", "<C-r>")
+
+-- bc to close current buffer
+vim.keymap.set("n", "<leader>bc", ":bufdo bd<CR>")
+
+-- translate this to lua
+vim.keymap.set("n", "<leader>l", ":bnext<cr>")
+vim.keymap.set("n", "<leader>h", ":bprevious<cr>")
+
+-- Useful mappings for managing tabs
+vim.keymap.set("n", "<leader>tn", ":tabnew<cr>")
+vim.keymap.set("n", "<leader>to", ":tabonly<cr>")
+vim.keymap.set("n", "<leader>tc", ":tabclose<cr>")
+vim.keymap.set("n", "<leader>tm", ":tabmove")
+vim.keymap.set("n", "<leader>t", ":tabnext<cr>")
+
+-- switch cwd to that of open buffer
+vim.keymap.set("n", "<leader>cd", ":cd %:p:h<cr>:pwd<cr>")
+
+-- Return to last edit position when opening files (You want this!)
+vim.cmd[[au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif]]

@@ -68,6 +68,20 @@ require("lazy").setup({
     lazy = true
   },
 
+  -- Test integration
+  { 
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-treesitter/nvim-treesitter",
+
+      -- Test runners
+      "nvim-neotest/neotest-go",
+      "nvim-neotest/neotest-jest",
+      "marilari88/neotest-vitest"
+    },
+  },
 
   -- Git integration
   { "tpope/vim-fugitive", lazy = true },
@@ -79,10 +93,16 @@ require("lazy").setup({
   ---- Quality of life improvements
 
   -- Autocomplete for keybindings
-  "folke/which-key.nvim",
+  {
+    "folke/which-key.nvim", 
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 600
+    end,
+  },
 
   -- Makes undo 1000x better
-  { "mbbill/undotree", lazy = true },
+  { "mbbill/undotree" },
 
   -- gcc to comment stuff
   {

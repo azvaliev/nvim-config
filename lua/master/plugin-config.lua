@@ -15,14 +15,25 @@ configs.setup({
   },
 })
 
+---------------
+-- which-key
+---------------
+
+local wk = require("which-key")
+
 ------------
 -- telescope
 ------------
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>gf', builtin.git_files, {})
-vim.keymap.set('n', '<leader>lg', builtin.live_grep, {})
+wk.register({
+  f = {
+    name = "file", -- optional group name
+    f = { builtin.find_files, "Find File" },
+    b = { builtin.buffers, "Buffers" },
+  },
+  gf = { builtin.git_files, "Find Git Files" },
+  lg = { builtin.live_grep, "Live Grep" }
+}, { prefix = "<leader>" })
 
 ------------
 -- harpoon
@@ -31,9 +42,11 @@ vim.keymap.set('n', '<leader>lg', builtin.live_grep, {})
 local mark = require("harpoon.mark")
 local ui = require("harpoon.ui")
 
-vim.keymap.set("n", "<leader>ha", mark.add_file)
-vim.keymap.set("n", "<leader>hd", mark.clear_all)
-vim.keymap.set("n", "<leader>hp", ui.toggle_quick_menu)
+wk.register({
+  a = { mark.add_file, "Mark file" },
+  d = { mark.clear_all, "Clear marks" },
+  p = { ui.toggle_quick_menu, "Mark Menu" }
+}, { prefix = "<leader>h" })
 
 vim.keymap.set("n", "<C-h>", function() ui.nav_file(1) end)
 vim.keymap.set("n", "<C-t>", function() ui.nav_file(2) end)
@@ -45,14 +58,17 @@ vim.keymap.set("n", "<C-s>", function() ui.nav_file(4) end)
 -- Undotree
 ----------------
 
-vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
-
+wk.register({
+  ["<leader>u"] = { vim.cmd.UndotreeToggle, "Toggle undo tree" }
+})
 
 ----------------
 -- Fugitive
 ----------------
 
-vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
+wk.register({
+  ["<leader>gs"] = { vim.cmd.Git, "Git helpers" }
+})
 
 
 ----------------
@@ -74,4 +90,6 @@ require('lualine').setup{
 -- trouble
 ----------------
 
-vim.keymap.set("n", "<leader>tt", vim.cmd.TroubleToggle)
+wk.register({
+  ["<leader>tt"] = { vim.cmd.TroubleToggle, "Toggle Trouble Menu" } 
+})

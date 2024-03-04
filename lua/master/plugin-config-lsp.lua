@@ -9,6 +9,13 @@ lsp_zero.on_attach(function(client, bufnr)
   vim.keymap.set("n", "<leader>fa", vim.lsp.buf.format);
   vim.keymap.set("n", "<leader>a", vim.lsp.buf.code_action);
 
+  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev);
+  vim.keymap.set("n", "]d", vim.diagnostic.goto_next);
+
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition);
+  vim.keymap.set("n", "gD", vim.lsp.buf.declaration);
+  vim.keymap.set("n", "gi", vim.lsp.buf.implementation);
+  vim.keymap.set("n", "go", vim.lsp.buf.type_definition);
   vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", { buffer = bufnr })
 
   local filetype = vim.api.nvim_buf_get_option(bufnr, 'filetype')

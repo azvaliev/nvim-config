@@ -82,7 +82,10 @@ vim.g.netrw_list_hide = "(^|\\s\\s)\zs.\\S+";
 ----------------
 
 require('lualine').setup{
-  options = { theme = 'modus-vivendi' }
+  options = {
+    -- theme = 'modus-vivendi'
+    theme = 'poimandres'
+  }
 }
 
 

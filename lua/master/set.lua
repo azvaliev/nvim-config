@@ -6,6 +6,12 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
+-- Use 4-space tabs for golang
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "go",
+  command = "setlocal noexpandtab tabstop=4 shiftwidth=4",
+})
+
 vim.opt.smartindent = true
 
 vim.opt.wrap = false

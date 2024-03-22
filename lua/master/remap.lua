@@ -21,6 +21,11 @@ vim.keymap.set("x", "<leader>p", "\"_dP")
 -- U to redo
 vim.keymap.set("n", "U", "<C-r>")
 
+-- Copy file path
+vim.keymap.set("n", "<leader>wf", function()
+    vim.fn.setreg('+', vim.fn.expand('%'))
+end, {desc = "Copy current file path"})
+
 -- bc to close current buffer
 vim.keymap.set("n", "<leader>bc", ":bufdo bd<CR>")
 

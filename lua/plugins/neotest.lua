@@ -14,12 +14,15 @@ return {
     },
     config = function()
       local neotest = require("neotest")
+      local Path = require("plenary.path")
+      local fn = vim.fn
+
       neotest.setup({
         adapters = {
           require("neotest-vitest"),
           require("neotest-golang"),
           require("neotest-jest")({
-            jestCommand = "npm test --",
+            jestCommand = "npx jest --",
             jestConfigFile = "jest.config.ts",
             env = { CI = true },
             cwd = function(path)

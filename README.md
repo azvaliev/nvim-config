@@ -17,3 +17,8 @@ Mason should auto install them, but to install the various LSP you'll probably n
 
 - Rust-Analyzer (in line with the Rust version)
   Needed to run Rust tests
+
+### JSON Formatter
+
+- [jq](https://github.com/jqlang/jq?tab=readme-ov-file#jq)
+  Needed for the `<leader>jp` command to format JSON in a file

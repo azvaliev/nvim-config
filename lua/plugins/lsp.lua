@@ -29,7 +29,7 @@ return {
         vim.keymap.set('n', '<F2>', function() vim.lsp.buf.rename() end, opts)
         vim.keymap.set('n', '<leader>fa', function() vim.lsp.buf.format({async = true}) end, opts)
         vim.keymap.set('n', '<leader>ca', function() vim.lsp.buf.code_action() end, opts)
-        vim.keymap.set('n', '<leader>s', function() telescope.lsp_workspace_symbols() end, opts)
+        vim.keymap.set('n', '<leader>s', function() telescope.lsp_dynamic_workspace_symbols() end, opts)
       end
 
       lsp_zero.extend_lspconfig({
@@ -99,7 +99,36 @@ return {
                 vim.keymap.set('n', '<leader>fa', function() vim.cmd('EslintFixAll') end, opts)
               end,
             })
-          end
+          end,
+          -- Customize display of typos lsp
+          -- - All warnings, no errors
+          -- - No virtual text
+          ['typos_lsp'] = function()
+            require('lspconfig').typos_lsp.setup {
+              on_attach = function(client, bufnr)
+                -- Customize the diagnostic handler for Typos LSP
+                vim.lsp.handlers["textDocument/publishDiagnostics"] = function(_, result, ctx, config)
+                  local client_id = ctx.client_id
+                  local client = vim.lsp.get_client_by_id(client_id)
+
+                  if client.name == "typos_lsp" then
+                    for _, diagnostic in ipairs(result.diagnostics) do
+                      -- Change diagnostic severity from Error to Warning
+                      diagnostic.severity = vim.diagnostic.severity.WARN
+                    end
+                  end
+
+                  -- Apply custom configuration for diagnostics
+                  vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, {
+                    virtual_text = client.name ~= "typos_lsp", -- Disable virtual text for Typos LSP only
+                    signs = true,
+                    underline = true,
+                    update_in_insert = false,
+                  })
+                end
+              end,
+            }
+          end,
         }
       })
 
@@ -120,6 +149,7 @@ return {
           ['<Tab>'] = cmp.mapping.confirm({ select = true }),
           ['<C-j>'] = cmp.mapping.select_next_item(),
           ['<C-k>'] = cmp.mapping.select_prev_item(),
+          ['<Esc>'] = cmp.mapping.close()
         }), 
       })
     end

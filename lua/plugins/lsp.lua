@@ -29,7 +29,7 @@ return {
         vim.keymap.set('n', '<F2>', function() vim.lsp.buf.rename() end, opts)
         vim.keymap.set('n', '<leader>fa', function() vim.lsp.buf.format({async = true}) end, opts)
         vim.keymap.set('n', '<leader>ca', function() vim.lsp.buf.code_action() end, opts)
-        vim.keymap.set('n', '<leader>s', function() telescope.workspace_symbols() end, opts)
+        vim.keymap.set('n', '<leader>s', function() telescope.lsp_workspace_symbols() end, opts)
       end
 
       lsp_zero.extend_lspconfig({

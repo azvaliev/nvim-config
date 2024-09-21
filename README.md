@@ -12,3 +12,8 @@
 Mason should auto install them, but to install the various LSP you'll probably need
 - Node >= 18
 - Rust (stable)
+
+### Test Running
+
+- Rust-Analyzer (in line with the Rust version)
+  Needed to run Rust tests

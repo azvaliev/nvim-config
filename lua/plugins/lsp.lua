@@ -1,5 +1,10 @@
 return {
   {
+    "mrcjkb/rustaceanvim",
+    version = '^5',
+    lazy = false, -- This plugin is already lazy
+  },
+  {
     "neovim/nvim-lspconfig",
     dependencies = { 
       { "VonHeikemen/lsp-zero.nvim", branch = "v4.x" },
@@ -10,6 +15,9 @@ return {
       "hrsh7th/nvim-cmp",
     },
     config = function()
+      -- Fidget
+      require('fidget').setup()
+
       --------- LSP Zero
       local lsp_zero = require('lsp-zero')
       local telescope = require('telescope.builtin')
@@ -61,7 +69,8 @@ return {
           "gopls",
           "templ",
           -- Rust
-          "rust_analyzer",
+          -- Now covered through rustaceanvim
+          -- "rust_analyzer",
           -- Docker
           "docker_compose_language_service",
           "dockerls",

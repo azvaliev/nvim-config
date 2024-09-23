@@ -34,9 +34,11 @@ return {
         vim.keymap.set('n', 'go', function() telescope.lsp_type_definitions() end, opts)
         vim.keymap.set('n', 'gr', function() telescope.lsp_references() end, opts)
         vim.keymap.set('n', 'gs', function() vim.lsp.buf.signature_help() end, opts)
+        vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end, opts)
+        vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, opts)
         vim.keymap.set('n', '<F2>', function() vim.lsp.buf.rename() end, opts)
         vim.keymap.set('n', '<leader>fa', function() vim.lsp.buf.format({async = true}) end, opts)
-        vim.keymap.set('n', '<leader>ca', function() vim.lsp.buf.code_action() end, opts)
+        vim.keymap.set({ 'n', 'v' }, '<leader>ca', function() vim.lsp.buf.code_action() end, opts)
         vim.keymap.set('n', '<leader>s', function() telescope.lsp_dynamic_workspace_symbols() end, opts)
       end
 
@@ -44,6 +46,14 @@ return {
         sign_text = true,
         lsp_attach = lsp_attach,
         capabilities = require('cmp_nvim_lsp').default_capabilities(),
+      })
+
+      vim.diagnostic.config({
+        virtual_text = false,
+        underline = true,
+        signs = true,
+        float = { scope = "line" },
+        jump = { float = true }
       })
 
       ---------- Mason, Language Servers
@@ -127,13 +137,6 @@ return {
                     end
                   end
 
-                  -- Apply custom configuration for diagnostics
-                  vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, {
-                    virtual_text = client.name ~= "typos_lsp", -- Disable virtual text for Typos LSP only
-                    signs = true,
-                    underline = true,
-                    update_in_insert = false,
-                  })
                 end
               end,
             }
@@ -157,8 +160,7 @@ return {
         mapping = cmp.mapping.preset.insert({
           ['<Tab>'] = cmp.mapping.confirm({ select = true }),
           ['<C-j>'] = cmp.mapping.select_next_item(),
-          ['<C-k>'] = cmp.mapping.select_prev_item(),
-          ['<Esc>'] = cmp.mapping.close()
+          ['<C-k>'] = cmp.mapping.select_prev_item()
         }), 
       })
     end

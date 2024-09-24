@@ -59,7 +59,7 @@ vim.opt.updatetime = 50
 -- Use full colors
 vim.opt.termguicolors = true
 
--- Column line at 80
-vim.opt.colorcolumn = "80"
+-- Column line
+vim.opt.colorcolumn = "100"
 
 vim.cmd [[set clipboard^=unnamed]]

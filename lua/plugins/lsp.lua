@@ -144,17 +144,27 @@ return {
               end,
             })
           end,
-          -- Enable inlay hints for Go
+          -- Tweak Go settings
           ["gopls"] = function()
             local lspconfig = require("lspconfig")
             lspconfig.gopls.setup({
+              -- Format on save
+              on_attach = function(client, bufnr)
+                vim.api.nvim_create_autocmd("BufWritePre", {
+                  buffer = bufnr,
+                  command = "lua vim.lsp.buf.format()"
+                })
+              end,
               settings = {
                 gopls = {
                   analyses = {
+                    -- Report unused variables in LSP
                     unusedvariable = true
                   },
+                  -- Additional static checks to catch bugs
                   staticcheck = true,
                   -- vulncheck = "Imports",
+                  -- Enable inlay hints
                   hints = {
                     assignVariableTypes = true,
                     compositeLiteralFields = true,

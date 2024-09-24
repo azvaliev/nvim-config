@@ -13,7 +13,11 @@ return {
       "j-hui/fidget.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/nvim-cmp",
-      { "pmizio/typescript-tools.nvim", dependencies = { "nvim-lua/plenary.nvim" } }
+      { "pmizio/typescript-tools.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
+      {
+        "olexsmir/gopher.nvim",
+        dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" }
+      }
     },
     config = function()
       -- Fidget
@@ -138,6 +142,28 @@ return {
                 -- Have `fa` use ESLint
                 vim.keymap.set('n', '<leader>fa', function() vim.cmd('EslintFixAll') end, opts)
               end,
+            })
+          end,
+          -- Enable inlay hints for Go
+          ["gopls"] = function()
+            local lspconfig = require("lspconfig")
+            lspconfig.gopls.setup({
+              settings = {
+                gopls = {
+                  analyses = {
+                    unusedvariable = true
+                  },
+                  staticcheck = true,
+                  -- vulncheck = "Imports",
+                  hints = {
+                    assignVariableTypes = true,
+                    compositeLiteralFields = true,
+                    functionTypeParameters = true,
+                    parameterNames = true,
+                    rangeVariableTypes = true
+                  }
+                }
+              }
             })
           end,
           -- Customize display of typos lsp

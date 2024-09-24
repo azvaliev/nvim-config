@@ -13,6 +13,7 @@ return {
       "j-hui/fidget.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/nvim-cmp",
+      { "pmizio/typescript-tools.nvim", dependencies = { "nvim-lua/plenary.nvim" } }
     },
     config = function()
       -- Fidget
@@ -26,6 +27,7 @@ return {
       -- if there is a language server active in the file
       local lsp_attach = function(client, bufnr)
         local opts = {buffer = bufnr}
+        vim.lsp.inlay_hint.enable(true);
 
         vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, opts)
         vim.keymap.set('n', 'gd', function() telescope.lsp_definitions() end, opts)
@@ -55,6 +57,23 @@ return {
         float = { scope = "line" },
         jump = { float = true }
       })
+
+      -- TypeScript specific stuff config, mostly doing this to enable inlay hints
+
+      require("typescript-tools").setup {
+        settings = {
+          tsserver_file_preferences = {
+            includeInlayParameterNameHints = "all",
+            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayVariableTypeHints = true,
+            includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+            includeInlayPropertyDeclarationTypeHints = true,
+            includeInlayFunctionLikeReturnTypeHints = true,
+            includeInlayEnumMemberValueHints = false
+          }
+        }
+      }
 
       ---------- Mason, Language Servers
       require('mason').setup({})
@@ -104,6 +123,8 @@ return {
           function(server_name)
             require('lspconfig')[server_name].setup({})
           end,
+          -- no-op because the typescript plugin sets this up
+          ["ts_ls"] = function() end,
           ["eslint"] = function()
             local lspconfig = require("lspconfig")
             lspconfig.eslint.setup({
@@ -163,6 +184,7 @@ return {
           ['<C-k>'] = cmp.mapping.select_prev_item()
         }), 
       })
+
     end
   }
 }

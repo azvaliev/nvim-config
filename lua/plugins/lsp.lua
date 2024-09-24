@@ -3,6 +3,9 @@ return {
     "mrcjkb/rustaceanvim",
     version = '^5',
     lazy = false, -- This plugin is already lazy
+    init = function()
+      vim.g.rustfmt_autosave = 1
+    end
   },
   {
     "neovim/nvim-lspconfig",

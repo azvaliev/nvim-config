@@ -184,21 +184,11 @@ return {
           -- - No virtual text
           ['typos_lsp'] = function()
             require('lspconfig').typos_lsp.setup {
-              on_attach = function(client, bufnr)
-                -- Customize the diagnostic handler for Typos LSP
-                vim.lsp.handlers["textDocument/publishDiagnostics"] = function(_, result, ctx, config)
-                  local client_id = ctx.client_id
-                  local client = vim.lsp.get_client_by_id(client_id)
-
-                  if client.name == "typos_lsp" then
-                    for _, diagnostic in ipairs(result.diagnostics) do
-                      -- Change diagnostic severity from Error to Warning
-                      diagnostic.severity = vim.diagnostic.severity.WARN
-                    end
-                  end
-
-                end
-              end,
+              init_options = {
+                -- How typos are rendered in the editor, can be one of an Error, Warning, Info or Hint.
+                -- Defaults to error.
+                diagnosticSeverity = "Hint"
+              }
             }
           end,
         }

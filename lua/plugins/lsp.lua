@@ -22,7 +22,17 @@ return {
       { "pmizio/typescript-tools.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
       {
         "olexsmir/gopher.nvim",
-        dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" }
+        dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
+        lazy = true,
+        ft = { "gosum", "gomod", "go" },
+        keys = {
+          {
+            "<leader>ie",
+            desc = "generate if err != nil",
+            "<cmd>GoIfErr<CR>",
+            noremap = true
+          },
+        }
       }
     },
     config = function()

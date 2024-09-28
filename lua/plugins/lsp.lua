@@ -4,8 +4,11 @@ return {
     version = '^5',
     lazy = false, -- This plugin is already lazy
     init = function()
+      -- Format on save
       vim.g.rustfmt_autosave = 1
-    end
+    end,
+    -- Need lspconfig + mason to load first, otherwise it cannot find codelldb
+    dependencies = { "neovim/nvim-lspconfig" }
   },
   {
     "neovim/nvim-lspconfig",

@@ -29,3 +29,10 @@ Mason should auto install them, but to install the various LSP you'll probably n
     `npm` being globally available
 - [Delve](https://github.com/go-delve/delve?tab=readme-ov-file) for go debugger
 - `codelldb` for Rust debugger, use `:MasonInstall codelldb`
+
+### DB UI
+
+Add database URL configurations through defining `DB_UI_NAME=...` environment variables
+Example:
+`export DB_UI_MYSQL_LOCAL=mysql://user:password@localhost:3306?protocol=tcp`
+

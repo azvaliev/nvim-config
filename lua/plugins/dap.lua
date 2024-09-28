@@ -5,7 +5,7 @@ return {
     -- Language support
     ---- Rust is already covered via rustaceanvim, which will auto setup and work with dap continue
     "mxsdev/nvim-dap-vscode-js",
-    { "microsoft/vscode-js-debug", build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out" },
+    { "microsoft/vscode-js-debug", build = "npm ci --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out" },
     "leoluz/nvim-dap-go",
     -- UI
     "rcarriga/nvim-dap-ui",

@@ -3,10 +3,16 @@ return {
   {
     "ThePrimeagen/harpoon",
     lazy = true,
+    dependencies = { "j-hui/fidget.nvim" },
     keys = {
       {
-        "<leader>a",
-        function() harpoon:list():add() end,
+        "<leader>ha",
+        function() 
+          harpoon:list():add()
+          print(
+            "Added " .. vim.api.nvim_buf_get_name(0) .. " to harpoon"
+          )
+        end,
         desc = "Add file to harpoon list"
       },
       {
@@ -73,6 +79,8 @@ return {
                 local state = require("telescope.actions.state")
                 local selected_entry = state.get_selected_entry()
                 local current_picker = state.get_current_picker(prompt_bufnr)
+
+                require('fidget').notify("Removed entry " .. harpoon_files.items[1].value, "info")
 
                 table.remove(harpoon_files.items, selected_entry.index)
                 current_picker:refresh(finder())

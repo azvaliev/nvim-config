@@ -8,7 +8,7 @@ return {
         case_insensitive = true,
         show_hidden = true,
         is_always_hidden = function(name, bufnr)
-          return name == '.git' or name == '..'
+          return name == '.git' or name == '..' or name == '.DS_Store'
         end,
       },
     },

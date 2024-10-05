@@ -151,7 +151,9 @@ return {
                 yaml = {
                   schemas = {
                     ["https://moonrepo.dev/schemas/tasks.json"] = ".moon/tasks/*.yml",
-                    ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/refs/heads/main/schemas/v3.1/schema.yaml"] = { "*openapi*.yml", "*api*.yml" }
+                    ["https://moonrepo.dev/schemas/project.json"] = "**/moon.yml",
+                    ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/refs/heads/main/schemas/v3.0/schema.yaml"] = { "*openapi*.yml" },
+                    ["https://raw.githubusercontent.com/oapi-codegen/oapi-codegen/HEAD/configuration-schema.json"] = { "*oapi*.yml", "*oapi*.yaml" }
                   }
                 }
               }

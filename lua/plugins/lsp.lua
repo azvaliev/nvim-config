@@ -150,7 +150,8 @@ return {
               settings = {
                 yaml = {
                   schemas = {
-                    ["https://moonrepo.dev/schemas/tasks.json"] = ".moon/tasks/*.yml"
+                    ["https://moonrepo.dev/schemas/tasks.json"] = ".moon/tasks/*.yml",
+                    ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/refs/heads/main/schemas/v3.1/schema.yaml"] = { "*openapi*.yml", "*api*.yml" }
                   }
                 }
               }

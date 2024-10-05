@@ -143,6 +143,19 @@ return {
           function(server_name)
             require('lspconfig')[server_name].setup({})
           end,
+          ['yamlls'] = function()
+            local lspconfig = require("lspconfig")
+
+            lspconfig.yamlls.setup {
+              settings = {
+                yaml = {
+                  schemas = {
+                    ["https://moonrepo.dev/schemas/tasks.json"] = ".moon/tasks/*.yml"
+                  }
+                }
+              }
+            }
+          end,
           -- no-op because the typescript plugin sets this up
           ["ts_ls"] = function() end,
           ["eslint"] = function()

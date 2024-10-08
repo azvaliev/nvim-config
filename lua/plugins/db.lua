@@ -6,6 +6,9 @@ return {
       'kristijanhusak/vim-dadbod-completion',
       ft = { 'sql', 'mysql', 'psql', 'plsql' },
       lazy = true,
+      config = function() 
+        vim.cmd[[ autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} }) ]]
+      end
     },
   },
   cmd = {

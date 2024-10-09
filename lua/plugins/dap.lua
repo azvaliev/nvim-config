@@ -24,7 +24,7 @@ return {
       noremap = true
     },
     {
-      "<leader>b", 
+      "<leader>db", 
       desc = "toggle a breakpoint on the current line",
       function()
         require("dap").toggle_breakpoint()

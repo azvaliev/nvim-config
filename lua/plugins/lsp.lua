@@ -19,7 +19,6 @@ return {
       "j-hui/fidget.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/nvim-cmp",
-      { "pmizio/typescript-tools.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
       {
         "olexsmir/gopher.nvim",
         dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
@@ -78,22 +77,6 @@ return {
         jump = { float = true }
       })
 
-      -- TypeScript specific stuff config, mostly doing this to enable inlay hints
-
-      require("typescript-tools").setup {
-        settings = {
-          tsserver_file_preferences = {
-            includeInlayParameterNameHints = "literals",
-            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-            includeInlayFunctionParameterTypeHints = false,
-            includeInlayVariableTypeHints = false,
-            includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-            includeInlayPropertyDeclarationTypeHints = false,
-            includeInlayFunctionLikeReturnTypeHints = false,
-            includeInlayEnumMemberValueHints = false
-          }
-        }
-      }
 
       ---------- Mason, Language Servers
       require('mason').setup({})
@@ -109,7 +92,7 @@ return {
           -- Prisma
           "prismals",
           -- JavaScript/TypeScript
-          "ts_ls",
+          "vtsls",
           -- Python
           "pyright",
           -- PHP
@@ -180,8 +163,28 @@ return {
               }
             }
           end,
-          -- no-op because the typescript plugin sets this up
-          ["ts_ls"] = function() end,
+          ["vtsls"] = function() 
+            local lspconfig = require("lspconfig")
+            
+            lspconfig.vtsls.setup({
+              settings = {
+                typescript = {
+                  parameterNames = { enabled = "literals" },
+                  preferences = {
+                    includePackageJsonAutoImports = 'off',
+                    autoImportFileExcludePatterns = { "**/node_modules/**/dist", "^src/*" }
+                  }
+                },
+                vtsls = {
+                  experimental = {
+                    completion = {
+                      enableServerSideFuzzyMatch = true
+                    }
+                  }
+                }
+              }
+            })
+          end,
           ["eslint"] = function()
             local lspconfig = require("lspconfig")
             lspconfig.eslint.setup({

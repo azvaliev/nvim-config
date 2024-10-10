@@ -223,6 +223,20 @@ return {
         }
       })
 
+      -- Auto format JSON on save
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        pattern = { "*.json" },
+        callback = function() format_json_with_jq() end
+      })
+
+      -- Have `fa` use json formatter for json files
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "*.json" },
+        callback = function()
+          vim.keymap.set('n', '<leader>fa', function() format_json_with_jq() end, { buffer = true, noremap = true, silent = true })
+        end
+      })
+
       -------- CMP Completion
       local cmp = require("cmp")
 
@@ -246,3 +260,4 @@ return {
     end
   }
 }
+

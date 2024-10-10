@@ -50,38 +50,3 @@ vim.keymap.set("n", "<Down>", "<Nop>")
 vim.keymap.set("n", "<Right>", "<Nop>")
 vim.keymap.set("n", "<Left>", "<Nop>")
 
-local function format_json_with_jq()
-  -- Get the current buffer number
-  local bufnr = vim.api.nvim_get_current_buf()
-
-  -- Get all lines in the current buffer
-  local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-
-  -- Combine the lines into a single string
-  local input = table.concat(lines, "\n")
-
-  -- Use the `jq` command to format JSON, capturing both stdout and stderr
-  local handle = io.popen('echo "' .. input:gsub('"', '\\"') .. '" | jq . 2>&1', 'r')
-  if not handle then
-    print("Error: Failed to run jq command.")
-    return
-  end
-
-  -- Read the output from jq
-  local output = handle:read("*a")
-  handle:close()
-
-  -- Check for errors in jq output
-  if output:match("^parse error") then
-    print("Error: Invalid JSON detected.")
-    return
-  end
-
-  -- Split the output into lines to handle multiline JSON properly
-  local output_lines = vim.split(output, "\n", { trimempty = true })
-
-  -- Replace the buffer contents with the formatted output
-  vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, output_lines)
-end
-
-vim.keymap.set('n', '<leader>jp', function() format_json_with_jq() end, { noremap = true, silent = true })

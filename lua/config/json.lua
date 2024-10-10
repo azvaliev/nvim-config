@@ -57,10 +57,10 @@ function format_json_with_jq()
   handle:close()
 
   -- Check for errors in jq output
-  if output:match("^parse error") then
-    print("Error: Invalid JSON detected.")
+  if output:match("^jq: parse error") then
     -- Clean up temporary file before returning
     os.remove(temp_file)
+    require("fidget").notify(output, vim.log.levels.ERROR, { ttl = 8 })
     return
   end
 

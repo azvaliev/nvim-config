@@ -143,6 +143,27 @@ return {
           function(server_name)
             require('lspconfig')[server_name].setup({})
           end,
+          ['jsonls'] = function()
+            local lspconfig = require("lspconfig")
+
+            lspconfig.jsonls.setup({
+              on_attach = function(client, bufnr)
+                local ft = vim.api.nvim_buf_get_option(bufnr, 'filetype')
+
+                if ft == 'json' then
+                  -- Auto format JSON on save
+                  vim.api.nvim_create_autocmd("BufWritePre", {
+                    pattern = { "*.json" },
+                    callback = function() format_json_with_jq() end
+                  })
+
+                  -- Have `fa` use json formatter for json files
+                  vim.keymap.set('n', '<leader>fa', function() format_json_with_jq() end, { buffer = bufnr, noremap = true, silent = true })
+                end
+
+              end
+            })
+          end,
           ['yamlls'] = function()
             local lspconfig = require("lspconfig")
 
@@ -221,20 +242,6 @@ return {
             }
           end,
         }
-      })
-
-      -- Auto format JSON on save
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = { "*.json" },
-        callback = function() format_json_with_jq() end
-      })
-
-      -- Have `fa` use json formatter for json files
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = { "*.json" },
-        callback = function()
-          vim.keymap.set('n', '<leader>fa', function() format_json_with_jq() end, { buffer = true, noremap = true, silent = true })
-        end
       })
 
       -------- CMP Completion

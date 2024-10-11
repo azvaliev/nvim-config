@@ -77,7 +77,6 @@ return {
         jump = { float = true }
       })
 
-
       ---------- Mason, Language Servers
       require('mason').setup({})
       require('mason-lspconfig').setup({
@@ -167,6 +166,11 @@ return {
             local lspconfig = require("lspconfig")
             
             lspconfig.vtsls.setup({
+              -- Disable auto format
+              on_attach = function(client)
+                client.server_capabilities.documentFormattingProvider = false
+                client.server_capabilities.documentRangeFormattingProvider = false
+              end,
               settings = {
                 typescript = {
                   parameterNames = { enabled = "literals" },

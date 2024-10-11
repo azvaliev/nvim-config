@@ -174,16 +174,22 @@ return {
               end,
               settings = {
                 typescript = {
+                  tsserver = {
+                    maxTsServerMemory = 16384, -- 16GB memory
+                  },
                   parameterNames = { enabled = "literals" },
                   preferences = {
-                    includePackageJsonAutoImports = 'off',
-                    autoImportFileExcludePatterns = { "**/node_modules/**/dist", "^src/*" }
+                    -- performance improvements
+                    autoImportFileExcludePatterns = { "**/dist/**", "**/build/**", "**/out/**", "**/*.test.ts", "**/*.spec.ts" },
+                    includeCompletionsForModuleExports = false,
+                    includePackageJsonAutoImports = "off",
                   }
                 },
                 vtsls = {
                   experimental = {
                     completion = {
-                      enableServerSideFuzzyMatch = true
+                      enableServerSideFuzzyMatch = true,
+                      entriesLimit = 20,
                     }
                   }
                 }

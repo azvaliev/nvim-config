@@ -81,8 +81,15 @@ return {
       -- TypeScript specific stuff config, mostly doing this to enable inlay hints
 
       require("typescript-tools").setup {
+        -- Disable auto format
+        on_attach = function(client)
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentRangeFormattingProvider = false
+        end,
         settings = {
+          tsserver_max_memory = 12288, -- 12GB
           tsserver_file_preferences = {
+            autoImportFileExcludePatterns = { "**/dist/**", "**/build/**", "**/out/**", "**/*.test.ts", "**/*.spec.ts" },
             includeInlayParameterNameHints = "literals",
             includeInlayParameterNameHintsWhenArgumentMatchesName = false,
             includeInlayFunctionParameterTypeHints = false,

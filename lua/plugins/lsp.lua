@@ -89,7 +89,11 @@ return {
         settings = {
           tsserver_max_memory = 12288, -- 12GB
           tsserver_file_preferences = {
+            -- performance improvements
             autoImportFileExcludePatterns = { "**/dist/**", "**/build/**", "**/out/**", "**/*.test.ts", "**/*.spec.ts" },
+            includeCompletionsForModuleExports = false,
+            includePackageJsonAutoImports = "off",
+            -- some inlay hints
             includeInlayParameterNameHints = "literals",
             includeInlayParameterNameHintsWhenArgumentMatchesName = false,
             includeInlayFunctionParameterTypeHints = false,

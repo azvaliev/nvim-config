@@ -19,6 +19,7 @@ return {
       "j-hui/fidget.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/nvim-cmp",
+      "yioneko/nvim-vtsls",
       {
         "olexsmir/gopher.nvim",
         dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
@@ -183,6 +184,7 @@ return {
                     autoImportFileExcludePatterns = { "**/dist/**", "**/build/**", "**/out/**", "**/*.test.ts", "**/*.spec.ts" },
                     includeCompletionsForModuleExports = false,
                     includePackageJsonAutoImports = "off",
+                    preferTypeOnlyAutoImports = true
                   }
                 },
                 vtsls = {

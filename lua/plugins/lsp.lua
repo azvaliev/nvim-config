@@ -83,10 +83,10 @@ return {
       require('mason-lspconfig').setup({
         ensure_installed = {
           -- Frontend
-          "cssls",
-          "cssmodules_ls",
+          -- "cssls",
+          -- "cssmodules_ls",
           "eslint",
-          "tailwindcss",
+          -- "tailwindcss",
           "graphql",
           "html",
           -- Prisma
@@ -170,8 +170,10 @@ return {
             lspconfig.vtsls.setup({
               -- Disable auto format
               on_attach = function(client)
+                client.flags.debounce_text_changes = 250;
                 client.server_capabilities.documentFormattingProvider = false
                 client.server_capabilities.documentRangeFormattingProvider = false
+
               end,
               settings = {
                 typescript = {
@@ -202,6 +204,9 @@ return {
             local lspconfig = require("lspconfig")
             lspconfig.eslint.setup({
               on_attach = function(client, bufnr)
+                client.flags.debounce_text_changes = 2000;
+                -- client.server_capabilities.diagnosticProvider = false;
+                -- client.server_capabilities.codeActionProvider = false;
                 -- Format on save for ESLint
                 -- vim.api.nvim_create_autocmd("BufWritePre", {
                 --   buffer = bufnr,
@@ -254,7 +259,10 @@ return {
                 -- How typos are rendered in the editor, can be one of an Error, Warning, Info or Hint.
                 -- Defaults to error.
                 diagnosticSeverity = "Hint"
-              }
+              },
+              on_attach = function(client, bufnr)
+                client.flags.debounce_text_changes = 5000;
+              end
             }
           end,
         }

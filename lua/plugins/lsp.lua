@@ -169,7 +169,7 @@ return {
             lspconfig.vtsls.setup({
               -- Disable auto format
               on_attach = function(client)
-                client.flags.debounce_text_changes = 250;
+                client.flags.debounce_text_changes = 150;
                 client.server_capabilities.documentFormattingProvider = false
                 client.server_capabilities.documentRangeFormattingProvider = false
 
@@ -189,6 +189,11 @@ return {
                   }
                 },
                 vtsls = {
+                  -- autoUseWorkspaceTsdk = true,
+                  -- Need to pnpm install typescript globally
+                  typescript = {
+                    globalTsdk = "~/Library/pnpm/global/5/node_modules/typescript/lib"
+                  },
                   experimental = {
                     completion = {
                       enableServerSideFuzzyMatch = true,
@@ -203,7 +208,7 @@ return {
             local lspconfig = require("lspconfig")
             lspconfig.eslint.setup({
               on_attach = function(client, bufnr)
-                client.flags.debounce_text_changes = 2000;
+                client.flags.debounce_text_changes = 3000;
                 -- client.server_capabilities.diagnosticProvider = false;
                 -- client.server_capabilities.codeActionProvider = false;
                 -- Format on save for ESLint

@@ -191,10 +191,6 @@ return {
                 },
                 vtsls = {
                   -- autoUseWorkspaceTsdk = true,
-                  -- Need to pnpm install typescript globally
-                  typescript = {
-                    globalTsdk = "~/Library/pnpm/global/5/node_modules/typescript/lib"
-                  },
                   experimental = {
                     completion = {
                       enableServerSideFuzzyMatch = true,

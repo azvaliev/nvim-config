@@ -209,7 +209,7 @@ return {
             local lspconfig = require("lspconfig")
             lspconfig.eslint.setup({
               on_attach = function(client, bufnr)
-                client.flags.debounce_text_changes = 3000;
+                client.flags.debounce_text_changes = 5000;
                 -- client.server_capabilities.diagnosticProvider = false;
                 -- client.server_capabilities.codeActionProvider = false;
                 -- Format on save for ESLint

@@ -18,6 +18,7 @@ return {
       vim.keymap.set("n", "<leader>gf", builtin.git_files, {})
       vim.keymap.set("n", "<leader>lg", builtin.live_grep, {})
       vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
+      vim.keymap.set("n", "<leader>f.", builtin.resume, { desc = "re-open the previous telescope window" })
       vim.keymap.set("n", "<leader>pws", function()
           local word = vim.fn.expand("<cword>")
           builtin.grep_string({ search = word })

@@ -185,7 +185,8 @@ return {
                     ["https://moonrepo.dev/schemas/tasks.json"] = ".moon/tasks/*.yml",
                     ["https://moonrepo.dev/schemas/project.json"] = "**/moon.yml",
                     ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/refs/heads/main/schemas/v3.0/schema.yaml"] = { "*openapi*.yml" },
-                    ["https://raw.githubusercontent.com/oapi-codegen/oapi-codegen/HEAD/configuration-schema.json"] = { "*oapi*.yml", "*oapi*.yaml" }
+                    ["https://raw.githubusercontent.com/oapi-codegen/oapi-codegen/HEAD/configuration-schema.json"] = { "*oapi*.yml", "*oapi*.yaml" },
+                    ["https://raw.githubusercontent.com/compose-spec/compose-spec/refs/heads/main/schema/compose-spec.json"] = {"*compose.yml", "*compose.yaml" },
                   }
                 }
               }

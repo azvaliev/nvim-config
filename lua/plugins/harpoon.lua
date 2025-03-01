@@ -3,7 +3,6 @@ return {
   {
     "ThePrimeagen/harpoon",
     lazy = true,
-    dependencies = { "j-hui/fidget.nvim" },
     keys = {
       {
         "<leader>ha",
@@ -80,7 +79,7 @@ return {
                 local selected_entry = state.get_selected_entry()
                 local current_picker = state.get_current_picker(prompt_bufnr)
 
-                require('fidget').notify("Removed entry " .. harpoon_files.items[1].value, "info")
+                vim.notify("Removed entry " .. harpoon_files.items[1].value, "info")
 
                 table.remove(harpoon_files.items, selected_entry.index)
                 current_picker:refresh(finder())

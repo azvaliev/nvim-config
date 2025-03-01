@@ -16,7 +16,6 @@ return {
       { "VonHeikemen/lsp-zero.nvim", branch = "v4.x" },
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      "j-hui/fidget.nvim",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/nvim-cmp",
       "yioneko/nvim-vtsls",
@@ -37,12 +36,9 @@ return {
       }
     },
     config = function()
-      -- Fidget
-      require('fidget').setup()
-
       --------- LSP Zero
       local lsp_zero = require('lsp-zero')
-      local telescope = require('telescope.builtin')
+      local picker = require('snacks').picker
 
       -- lsp_attach is where you enable features that only work
       -- if there is a language server active in the file
@@ -50,19 +46,22 @@ return {
         local opts = {buffer = bufnr}
         vim.lsp.inlay_hint.enable(true);
 
+        -- Pickers
         vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, opts)
-        vim.keymap.set('n', 'gd', function() telescope.lsp_definitions() end, opts)
-        vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration() end, opts)
-        vim.keymap.set('n', 'gi', function() telescope.lsp_implementations() end, opts)
-        vim.keymap.set('n', 'go', function() telescope.lsp_type_definitions() end, opts)
-        vim.keymap.set('n', 'gr', function() telescope.lsp_references() end, opts)
+        vim.keymap.set('n', 'gd', function() picker.lsp_definitions() end, opts)
+        vim.keymap.set('n', 'gD', function() picker.lsp_declaration() end, opts)
+        vim.keymap.set('n', 'gi', function() picker.lsp_implementations() end, opts)
+        vim.keymap.set('n', 'gy', function() picker.lsp_type_definitions() end, opts)
+        vim.keymap.set('n', 'gr', function() picker.lsp_references() end, opts)
+        vim.keymap.set('n', '<leader>ss', function() picker.lsp_symbols() end, opts)
+        vim.keymap.set('n', '<leader>sS', function() picker.lsp_dynamic_workspace_symbols() end, opts)
+
         vim.keymap.set('n', 'gs', function() vim.lsp.buf.signature_help() end, opts)
         vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end, opts)
         vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, opts)
         vim.keymap.set('n', '<leader>rn', function() vim.lsp.buf.rename() end, opts)
         vim.keymap.set('n', '<leader>fa', function() vim.lsp.buf.format({async = true}) end, opts)
         vim.keymap.set({ 'n', 'v' }, '<leader>ca', function() vim.lsp.buf.code_action() end, opts)
-        vim.keymap.set('n', '<leader>s', function() telescope.lsp_dynamic_workspace_symbols() end, opts)
       end
 
       lsp_zero.extend_lspconfig({
@@ -257,6 +256,22 @@ return {
           end,
         }
       })
+
+      -- FIX for floating window "No Information Available" on hover
+      -- I think it shows up because some LSPs don't have info available
+      vim.lsp.handlers['textDocument/hover'] = function(_, result, ctx, config)
+        config = config or {}
+        config.focus_id = ctx.method
+        if not (result and result.contents) then
+          return
+        end
+        local markdown_lines = vim.lsp.util.convert_input_to_markdown_lines(result.contents)
+        markdown_lines = vim.lsp.util.trim_empty_lines(markdown_lines)
+        if vim.tbl_isempty(markdown_lines) then
+          return
+        end
+        return vim.lsp.util.open_floating_preview(markdown_lines, 'markdown', config)
+      end
 
       -------- CMP Completion
       local cmp = require("cmp")

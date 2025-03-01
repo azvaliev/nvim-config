@@ -85,7 +85,7 @@ return {
           -- Frontend
           -- "cssls",
           -- "cssmodules_ls",
-          "eslint",
+          "eslint_d",
           -- "tailwindcss",
           "graphql",
           "html",
@@ -201,7 +201,7 @@ return {
               }
             })
           end,
-          ["eslint"] = function()
+          ["eslint_d"] = function()
             local lspconfig = require("lspconfig")
             lspconfig.eslint.setup({
               on_attach = function(client, bufnr)

@@ -183,7 +183,7 @@ return {
                   parameterNames = { enabled = "literals" },
                   preferences = {
                     -- performance improvements
-                    autoImportFileExcludePatterns = { "**/dist/**", "**/build/**", "**/out/**", "**/*.test.ts", "**/*.spec.ts" },
+                    autoImportFileExcludePatterns = { "**/build/**", "**/out/**", "**/*.test.ts", "**/*.spec.ts" },
                     includeCompletionsForModuleExports = false,
                     includePackageJsonAutoImports = "off",
                     preferTypeOnlyAutoImports = true

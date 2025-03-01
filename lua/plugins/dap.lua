@@ -32,7 +32,7 @@ return {
       noremap = true
     },
     {
-      "<leader>gb",
+      "<leader>rb",
       desc = "continue debugging until cursor",
       function()
         require("dap").run_to_cursor()

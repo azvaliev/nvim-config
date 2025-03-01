@@ -20,6 +20,7 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/nvim-cmp",
       "yioneko/nvim-vtsls",
+      "WhoIsSethDaniel/mason-tool-installer.nvim",
       {
         "olexsmir/gopher.nvim",
         dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
@@ -80,12 +81,18 @@ return {
 
       ---------- Mason, Language Servers
       require('mason').setup({})
+      require("mason-tool-installer").setup({
+        ensure_installed = {
+          "prettier", -- prettier formatter
+          "eslint_d", -- js linter
+        },
+      })
+
       require('mason-lspconfig').setup({
         ensure_installed = {
           -- Frontend
           -- "cssls",
           -- "cssmodules_ls",
-          "eslint_d",
           -- "tailwindcss",
           "graphql",
           "html",
@@ -201,24 +208,6 @@ return {
               }
             })
           end,
-          ["eslint_d"] = function()
-            local lspconfig = require("lspconfig")
-            lspconfig.eslint.setup({
-              on_attach = function(client, bufnr)
-                client.flags.debounce_text_changes = 5000;
-                -- client.server_capabilities.diagnosticProvider = false;
-                -- client.server_capabilities.codeActionProvider = false;
-                -- Format on save for ESLint
-                -- vim.api.nvim_create_autocmd("BufWritePre", {
-                --   buffer = bufnr,
-                --   command = "EslintFixAll",
-                -- })
-
-                -- Have `fa` use ESLint
-                vim.keymap.set('n', '<leader>fa', function() vim.cmd('EslintFixAll') end, opts)
-              end,
-            })
-          end,
           -- Tweak Go settings
           ["gopls"] = function()
             local lspconfig = require("lspconfig")
@@ -289,6 +278,33 @@ return {
         }), 
       })
 
+    end
+  },
+  {
+    "mfussenegger/nvim-lint",
+    event = {
+      "BufReadPre",
+      "BufNewFile",
+    },
+    config = function()
+      local lint = require('lint')
+
+      lint.linters_by_ft = {
+        javascript = { "eslint_d" },
+        typescript = { "eslint_d" },
+        javascriptreact = { "eslint_d" },
+        typescriptreact = { "eslint_d" },
+        svelte = { "eslint_d" }
+      }
+
+      local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+        group = lint_augroup,
+        callback = function()
+          lint.try_lint()
+        end,
+      })
     end
   }
 }

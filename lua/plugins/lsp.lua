@@ -60,7 +60,18 @@ return {
         vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end, opts)
         vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, opts)
         vim.keymap.set('n', '<leader>rn', function() vim.lsp.buf.rename() end, opts)
-        vim.keymap.set('n', '<leader>fa', function() vim.lsp.buf.format({async = true}) end, opts)
+
+        local ft = vim.bo[bufnr].filetype
+
+        if string.match(ft, "javascript") or string.match(ft, "typescript") then
+          -- Autofix entire buffer with eslint_d:
+          vim.cmd[[ nnoremap <leader>fa mF:%!eslint_d --stdin --fix-to-stdout --stdin-filename "%"<CR>:w<CR>`F ]]
+          -- Autofix visual selection with eslint_d:
+          vim.cmd[[ vnoremap <leader>fa :!eslint_d --stdin --fix-to-stdout <CR> gv ]]
+        else
+          vim.keymap.set('n', '<leader>fa', function() vim.lsp.buf.format({async = true}) end, opts)
+        end
+
         vim.keymap.set({ 'n', 'v' }, '<leader>ca', function() vim.lsp.buf.code_action() end, opts)
       end
 

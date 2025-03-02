@@ -8,8 +8,9 @@ return {
         "<leader>ha",
         function() 
           harpoon:list():add()
-          print(
-            "Added " .. vim.api.nvim_buf_get_name(0) .. " to harpoon"
+          vim.notify(
+            "Added " .. vim.api.nvim_buf_get_name(0) .. " to harpoon",
+            "info"
           )
         end,
         desc = "Add file to harpoon list"
@@ -48,46 +49,53 @@ return {
       }
     },
     branch = "harpoon2",
-    dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function() 
       harpoon = require("harpoon")
-      local conf = require("telescope.config").values
 
       harpoon.setup()
 
-      function harpoon_toggle_telescope(harpoon_files)
-        local finder = function()
-          local paths = {}
-          for _, item in ipairs(harpoon_files.items) do
-            table.insert(paths, item.value)
+      local function generate_harpoon_picker()
+          local file_paths = {}
+          for _, item in ipairs(harpoon:list().items) do
+              table.insert(file_paths, {
+                  text = item.value,
+                  file = item.value
+              })
           end
-
-          return require("telescope.finders").new_table({
-            results = paths,
-          })
-        end
-
-        require("telescope.pickers").new({}, {
-          prompt_title = "Harpoon",
-          finder = finder(),
-          previewer = conf.file_previewer({}),
-          sorter = conf.generic_sorter({}),
-          attach_mappings = function(prompt_bufnr, map)
-            -- Allow removing files from harpoon
-            map("i", "<C-d>", function()
-                local state = require("telescope.actions.state")
-                local selected_entry = state.get_selected_entry()
-                local current_picker = state.get_current_picker(prompt_bufnr)
-
-                vim.notify("Removed entry " .. harpoon_files.items[1].value, "info")
-
-                table.remove(harpoon_files.items, selected_entry.index)
-                current_picker:refresh(finder())
-            end)
-            return true
-          end,
-        }):find()
+          return file_paths
       end
+
+
+      vim.keymap.set("n", "<leader>fh", function() Snacks.picker({
+        finder = generate_harpoon_picker,
+        win = {
+          input = {
+            keys = {
+              ["<C-d>"] = { "harpoon_delete", mode = { "i" } },
+              ["dd"] = { "harpoon_delete", mode = { "n", "x" } }
+            }
+          },
+          list = {
+            keys = {
+              ["<C-d>"] = { "harpoon_delete", mode = { "i" } },
+              ["dd"] = { "harpoon_delete", mode = { "n", "x" } }
+            }
+          },
+        },
+        actions = {
+          harpoon_delete = function(picker, item)
+            local to_remove = item or picker:selected()
+            local harpoon_items = harpoon:list().items
+
+            vim.notify("Removed " .. harpoon_items[to_remove.idx].value, "info")
+            table.remove(harpoon_items, to_remove.idx)
+            picker:find({
+                refresh = true -- refresh picker after removing values
+            })
+          end
+        },
+      }) end)
     end
   }
 }

@@ -65,9 +65,19 @@ return {
 
         if string.match(ft, "javascript") or string.match(ft, "typescript") then
           -- Autofix entire buffer with eslint_d:
-          vim.cmd[[ nnoremap <leader>fa mF:%!eslint_d --stdin --fix-to-stdout --stdin-filename "%"<CR>:w<CR>`F ]]
-          -- Autofix visual selection with eslint_d:
-          vim.cmd[[ vnoremap <leader>fa :!eslint_d --stdin --fix-to-stdout <CR> gv ]]
+          vim.keymap.set({ 'n', 'v' }, "<leader>fa", function()
+            vim.cmd("mark F")
+            vim.cmd('%!eslint_d --stdin --fix-to-stdout --stdin-filename "' .. vim.fn.expand("%") .. '"')
+            vim.cmd("write")
+            vim.cmd("normal! `F") -- Jump back to mark F
+          end, { noremap = true, silent = true, buffer = bufnr })
+
+          -- -- Autofix visual selection with eslint_d:
+          -- -- This doesn't work but I didn't spend any time on it bc dont' really care for it
+          -- vim.keymap.set("v", "<leader>fa", function()
+          --   vim.cmd('!eslint_d --stdin --fix-to-stdout')
+          --   vim.cmd("normal! gv") -- Reselect visual block
+          -- end, { noremap = true, silent = true, buffer = bufnr })
         else
           vim.keymap.set('n', '<leader>fa', function() vim.lsp.buf.format({async = true}) end, opts)
         end

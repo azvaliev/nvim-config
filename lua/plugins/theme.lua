@@ -1,8 +1,24 @@
 return {
-  {
-    "kvrohit/rasmus.nvim",
+  { 
+    'olivercederborg/poimandres.nvim',
     lazy = false,
     priority = 1000,
+    config = function()
+      require('poimandres').setup {}
+    end,
+
+    -- optionally set the colorscheme within lazy config
+    init = function()
+      vim.cmd("colorscheme poimandres")
+
+      -- The default color column is VERY bright
+      vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#292C3A" })
+    end
+  },
+  {
+    "kvrohit/rasmus.nvim",
+    lazy = true,
+    -- priority = 1000,
     config = function()
       vim.cmd [[colorscheme rasmus]]
 

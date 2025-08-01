@@ -208,6 +208,7 @@ return {
                     maxTsServerMemory = 16384, -- 16GB memory
                   },
                   parameterNames = { enabled = "literals" },
+                  inlayHints = { parameterNames = "all" },
                   preferences = {
                     -- performance improvements
                     autoImportFileExcludePatterns = { "**/build/**", "**/out/**", "**/*.test.ts", "**/*.spec.ts" },

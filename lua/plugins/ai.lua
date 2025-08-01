@@ -2,6 +2,8 @@ return {
   {
     "github/copilot.vim",
     config = function()
+      vim.g.copilot_enabled = false
+
       -- Disable for large files
       vim.cmd[[
         autocmd BufReadPre *

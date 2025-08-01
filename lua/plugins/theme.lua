@@ -1,7 +1,7 @@
 return {
   { 
     'olivercederborg/poimandres.nvim',
-    lazy = false,
+    lazy = true,
     priority = 1000,
     config = function()
       require('poimandres').setup {}
@@ -17,8 +17,8 @@ return {
   },
   {
     "kvrohit/rasmus.nvim",
-    lazy = true,
-    -- priority = 1000,
+    lazy = false,
+    priority = 1000,
     config = function()
       vim.cmd [[colorscheme rasmus]]
 
